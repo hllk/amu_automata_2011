@@ -555,7 +555,7 @@ abstract class AutomatonSpecification implements Cloneable {
                     } else {
                         for (int i = 1; i <= allOutgoingTransitions(q).size(); i++) {
                             for (int j = 1; j <= n; j++) {
-                                if (usedFin.get(j) != null) r=usedFin.get(j);
+                                if (usedFin.get(j) != null) r = usedFin.get(j);
                                 else break;
                                 if (r == allOutgoingTransitions(q).get(i).getTargetState()) {
                                     usedFin.add(q);
