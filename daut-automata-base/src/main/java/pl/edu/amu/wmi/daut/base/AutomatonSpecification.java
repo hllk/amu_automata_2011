@@ -69,31 +69,54 @@ abstract class AutomatonSpecification {
     public boolean uselessStates() {
         boolean flag1 = true;
         boolean flag2 = false;
+        boolean flag3 = false;
+        int n = 0;
         State q = getInitialState();
         List<State> stack = new ArrayList<State>();
-        List<State> used;
-        used = allStates();
+        List<State> usedSt;
+        List<State> usedFn;
+        usedSt = allStates();
+        usedFn = null;
+
         int x = 0;
         while (true) {
             if (flag1) {
                 for (int i = 1; i <= allOutgoingTransitions(q).size(); i++) {
                     stack.add(allOutgoingTransitions(q).get(i).getTargetState());
+                    n++;
                 }
             }
             if (!stack.isEmpty()) {
                 flag1 = true;
                 q = stack.get(stack.size());
-                for (int i = 1; i <= used.size(); i++) {
-                    if (used.get(i) == q) {
+                for (int i = 1; i <= usedSt.size(); i++) {
+                    if (usedSt.get(i) == q) {
                         flag2 = true;
                         x = i;
                         break;
                     }
                 }
                 if (flag2) {
-                    used.remove(x);
-                    flag2 = false;
-                    continue;
+                    usedSt.remove(x);
+                    if (isFinal(q)) {
+                        usedFn.add(q);
+                    } else {
+                        for (int i = 1; i <= allOutgoingTransitions(q).size(); i++) {
+                            for (int j = 1; j <= n; j++) {
+                                if (usedFn.get(j) == allOutgoingTransitions(q).get(i).getTargetState()) {
+                                    usedFn.add(q);
+                                    flag3 = true;
+                                    break;
+                                }
+                            }
+                            if (flag3) {
+                                flag3 = false;
+                                break;
+                            }
+                        }
+                        flag2 = false;
+                        continue;
+                    }
                 } else {
                     flag1 = false;
                 }
@@ -101,8 +124,13 @@ abstract class AutomatonSpecification {
                 break;
             }
         }
-        for (int i = 1; i <= used.size(); i++) {
-            if (used.get(i) != null) {
+        for (int i = 1; i <= usedSt.size(); i++) {
+            if (usedSt.get(i) != null) {
+                return true;
+            }
+        }
+        for (int i = usedFn.size(); i > 0; i--) {
+            if (usedFn.get(i) == null) {
                 return true;
             }
         }
