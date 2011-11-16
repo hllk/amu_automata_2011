@@ -528,7 +528,7 @@ abstract class AutomatonSpecification implements Cloneable {
         List<State> usedSt;
         List<State> usedFin;
         usedSt = allStates();
-        usedFin = null;
+        usedFin = new ArrayList<State>();
 
         int x = 0;
         while (true) {
