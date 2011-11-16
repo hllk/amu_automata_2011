@@ -1,2 +1,5 @@
 *~
 target
+.metadata
+.project
+nb-configuration.xml

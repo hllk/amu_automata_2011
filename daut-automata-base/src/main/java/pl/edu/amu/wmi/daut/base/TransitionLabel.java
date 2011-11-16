@@ -7,18 +7,18 @@ package pl.edu.amu.wmi.daut.base;
 abstract class TransitionLabel {
 
     /**
-     * Zwraca true wgdy przejście o danej etykiecie może nastąpić
+     * Zwraca true gdy przejście o danej etykiecie może nastąpić
      * bez "zjedzenia" znaku z wejścia.
      */
     public abstract boolean canBeEpsilon();
 
     /**
-     * Zwraca true wgdy przejście może nastąpić po znaku 'c'.
+     * Zwraca true gdy przejście może nastąpić po znaku 'c'.
      */
     public abstract boolean canAcceptCharacter(char c);
 
     /**
-     * Zwraca true wgdy przejście jest puste.
+     * Zwraca true gdy przejście jest puste.
      *
      * Puste przejście ma specjalny charakter (nie jest to epsilon-przejście!),
      * jest używane przez metody zwracające TransitionLabel do zaznaczenia, że
@@ -53,6 +53,6 @@ abstract class TransitionLabel {
 
     protected abstract TransitionLabel intersectWith(TransitionLabel label);
 
-    class CannotDetermineIntersectionException extends UnsupportedOperationException {
+    static class CannotDetermineIntersectionException extends UnsupportedOperationException {
     }
 }

@@ -203,4 +203,8 @@
     <!-- Pozwala wyłączyć od czasu do czasu sprawdzanie -->
     <module name="SuppressionCommentFilter"/>
 
+    <module name="SuppressionFilter">
+      <property name="file" value="suppressions.xml"/>
+    </module>
+
 </module>
