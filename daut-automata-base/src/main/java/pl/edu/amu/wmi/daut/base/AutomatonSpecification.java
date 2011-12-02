@@ -541,7 +541,7 @@ abstract class AutomatonSpecification implements Cloneable {
             if (!stack.isEmpty()) {
                 flag1 = true;
                 q = stack.get(stack.size());
-                for (int i = 1; i <= usedSt.size(); i++) {
+                for (int i = 0; i < usedSt.size(); i++) {
                     if (usedSt.get(i) == q) {
                         flag2 = true;
                         x = i;
@@ -554,7 +554,7 @@ abstract class AutomatonSpecification implements Cloneable {
                         usedFin.add(q);
                     } else {
                         for (int i = 1; i <= allOutgoingTransitions(q).size(); i++) {
-                            for (int j = 1; j <= n; j++) {
+                            for (int j = 0; j < n; j++) {
                                 if (usedFin.get(j) != null) r = usedFin.get(j);
                                 else break;
                                 if (r == allOutgoingTransitions(q).get(i).getTargetState()) {
@@ -578,12 +578,12 @@ abstract class AutomatonSpecification implements Cloneable {
                 break;
             }
         }
-        for (int i = 1; i <= usedSt.size(); i++) {
+        for (int i = 0; i < usedSt.size(); i++) {
             if (usedSt.get(i) != null) {
                 return true;
             }
         }
-        for (int i = usedFin.size(); i > 0; i--) {
+        for (int i = usedFin.size() - 1; i >= 0; i--) {
             if (usedFin.get(i) == null) {
                 return true;
             }
