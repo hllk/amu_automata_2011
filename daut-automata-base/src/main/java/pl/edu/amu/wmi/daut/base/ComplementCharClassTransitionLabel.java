@@ -8,16 +8,17 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- *
- * @author dawidss7
+ * ComplementCharClassTransitionLabel jest implementacją TransitionLabel
+ * reprezentującą przejście po znaku z dopełnienia podanej klasy znaków.
+ * 
  */
 public class ComplementCharClassTransitionLabel extends TransitionLabel {
 
     /**
-     * 
+     *
      * @param s Przyjmuje Stringa będącego wyrażeniem regularnym
      */
-    ComplementCharClassTransitionLabel(String s) {
+    public ComplementCharClassTransitionLabel(String s) {
         int l = s.length();
         se = new TreeSet<Character>();
         for (int i = 0; i < l; i++) {
@@ -36,7 +37,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @return Wynikiem jest wartość logiczna odpowiadająca na pytanie czy może
      * być epsilon przejście
      */
@@ -46,7 +47,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @param c Przyjmuje znak do sprawdzenia
      * @return Wynikiem jest wartość logiczna czy znak jest akceptowany
      */
@@ -56,7 +57,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @return Zwraca wartość logiczną czy jest puste przejście
      */
     @Override
@@ -65,7 +66,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @param label Przyjmuje TransitionLabel
      * @return Zwraca etykietę przejścia będącą przecięciem label i danej
      * etykiety
@@ -81,7 +82,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @return Zwraca set przechowujący spełniające podane wyrażenie regularne
      */
     protected SortedSet<Character> getSet() {
@@ -151,7 +152,7 @@ public class ComplementCharClassTransitionLabel extends TransitionLabel {
     }
 
     /**
-     * 
+     *
      * @return Zwraca wyrażenie regularne
      */
     @Override

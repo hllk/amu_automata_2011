@@ -3,9 +3,16 @@ package pl.edu.amu.wmi.daut.base;
 import java.util.List;
 import java.util.LinkedList;
 
-class NondeterministicAutomatonByThompsonApproach implements Acceptor {
 
-    NondeterministicAutomatonByThompsonApproach(final AutomatonSpecification specification) {
+/**
+* Klasa tworzy niedeterministyczny automat zgodnie z algorytmem Thompsona.
+*/
+public class NondeterministicAutomatonByThompsonApproach implements Acceptor {
+
+    /**
+    * Publiczny konstruktor.
+    */
+    public NondeterministicAutomatonByThompsonApproach(AutomatonSpecification specification) {
         automaton = specification;
     }
 
@@ -75,7 +82,7 @@ class NondeterministicAutomatonByThompsonApproach implements Acceptor {
         return accept;
     }
 
-    private List<State> epsilonClosure(State state) {
+    protected List<State> epsilonClosure(State state) {
         List<State> epsilonStates = new LinkedList<State>();
         List<State> temporaryStates = new LinkedList<State>();
         List<State> pStates = new LinkedList<State>();
@@ -115,7 +122,14 @@ class NondeterministicAutomatonByThompsonApproach implements Acceptor {
 
         return epsilonStates;
     }
+
+
+    protected AutomatonSpecification getSpecification() {
+        return automaton;
+    }
+
+
     private List<State> currentStates;
-    private final AutomatonSpecification automaton;
+    private AutomatonSpecification automaton;
     private boolean accept;
 };
