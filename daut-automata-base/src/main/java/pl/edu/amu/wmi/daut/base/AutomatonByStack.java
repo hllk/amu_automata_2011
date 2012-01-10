@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.edu.amu.wmi.daut.base;
 
 import java.util.Stack;
@@ -13,12 +9,16 @@ import java.util.List;
  */
 public class AutomatonByStack implements Acceptor {
 
+
     /**
     * Konstruktor przyjmujacy obiekt klasy AutomatonSpecification.
      */
-    AutomatonByStack(final AutomatonSpecification specification) {
+    public AutomatonByStack(final AutomatonSpecification specification) {
         automaton = specification;
     }
+
+    private AutomatonSpecification automaton;
+
 
     /**
      * Metoda sprawdzajaca czy niedeterministyczny automat skonczenie stanowy
@@ -32,6 +32,7 @@ public class AutomatonByStack implements Acceptor {
         while (!stack.empty()) {
             String v = (String) stack.pop();
             State r = (State) stack.pop();
+
             if (v.length() == 0) {
                 if (automaton.isFinal(r)) {
                     return true;
@@ -42,15 +43,17 @@ public class AutomatonByStack implements Acceptor {
                 allOutTransitions = automaton.allOutgoingTransitions(r);
                 for (OutgoingTransition transition : allOutTransitions) {
                     currentLabel = transition.getTransitionLabel();
+                    if (currentLabel.canBeEpsilon()) {
+                                      throw new UnsupportedOperationException();
+                    }
                     if (currentLabel.canAcceptCharacter(v.charAt(0))) {
                         State p = transition.getTargetState();
                         stack.push(p);
                         stack.push(u);
                     }
                 }
-            }
+              }
         }
         return false;
     }
-    private AutomatonSpecification automaton;
 }

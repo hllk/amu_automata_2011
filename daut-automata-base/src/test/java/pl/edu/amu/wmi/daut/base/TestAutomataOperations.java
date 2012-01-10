@@ -2,6 +2,8 @@ package pl.edu.amu.wmi.daut.base;
 
 import java.util.HashSet;
 import junit.framework.TestCase;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Testy różnych operacji na automatach.
@@ -958,5 +960,141 @@ public class TestAutomataOperations extends TestCase {
         assertTrue(acceptor.accepts("cy"));
         assertFalse(acceptor.accepts("ay"));
         assertFalse(acceptor.accepts("cx"));
+    }
+
+     /**
+     * Test sprawdza, czy odwracanie automatu działa.
+     */
+    public final void testInversionA() {
+        List<String> words = new ArrayList<String>();
+        words.add("ab");
+        words.add("ba");
+        words.add("caa");
+        words.add("bbba");
+        words.add("bbb");
+        words.add("bab");
+        words.add("abb");
+        words.add("aaa");
+        words.add("a");
+        words.add("b");
+        words.add("");
+
+        NaiveAutomatonSpecification automatonA = new NaiveAutomatonSpecification();
+        State q0 = automatonA.addState();
+        State q1 = automatonA.addState();
+        automatonA.addTransition(q0, q1, new CharTransitionLabel('a'));
+        automatonA.addLoop(q1, new CharTransitionLabel('a'));
+        automatonA.addLoop(q1, new CharTransitionLabel('b'));
+        automatonA.markAsInitial(q0);
+        automatonA.markAsFinal(q1);
+
+        AutomatonSpecification automatonB = AutomataOperations.reverseLanguageAutomaton(automatonA);
+
+        NondeterministicAutomatonByThompsonApproach originalAutomaton = new
+                NondeterministicAutomatonByThompsonApproach(automatonA);
+
+        NondeterministicAutomatonByThompsonApproach reversedAutomaton = new
+                NondeterministicAutomatonByThompsonApproach(automatonB);
+
+        List<String> wordsToAccept = new ArrayList<String>();
+        List<String> wordsToReject = new ArrayList<String>();
+
+        for (String word : words) {
+            String reversedWord = new StringBuffer(word).reverse().toString();
+            if (originalAutomaton.accepts(word))
+                wordsToAccept.add(reversedWord);
+            else
+                wordsToReject.add(reversedWord);
+        }
+
+        for (String word : wordsToAccept) {
+            assertTrue(reversedAutomaton.accepts(word));
+        }
+        for (String word : wordsToReject) {
+            assertFalse(reversedAutomaton.accepts(word));
+        }
+    }
+
+    /**
+     * Test sprawdza, czy odwracanie automatu działa (B).
+     */
+    public final void testInversionB() {
+        List<String> words = new ArrayList<String>();
+        words.add("cb");
+        words.add("bc");
+        words.add("bab");
+        words.add("bac");
+        words.add("cba");
+        words.add("cbb");
+        words.add("aaa");
+        words.add("aab");
+        words.add("aac");
+        words.add("aba");
+        words.add("abb");
+        words.add("abc");
+        words.add("aca");
+        words.add("acb");
+        words.add("acc");
+        words.add("aa");
+        words.add("ab");
+        words.add("ac");
+        words.add("ba");
+        words.add("bb");
+        words.add("bc");
+        words.add("ca");
+        words.add("cb");
+        words.add("cc");
+        words.add("a");
+        words.add("b");
+        words.add("c");
+        words.add("");
+        words.add("cb");
+        words.add("cab");
+        words.add("caab");
+        words.add("bc");
+        words.add("bac");
+        words.add("baac");
+        words.add("aac");
+        words.add("aab");
+        words.add("caa");
+        words.add("baa");
+
+        NaiveAutomatonSpecification automatonA = new NaiveAutomatonSpecification();
+        State q0 = automatonA.addState();
+        State q1 = automatonA.addState();
+        State q2 = automatonA.addState();
+        State q3 = automatonA.addState();
+        automatonA.addTransition(q0, q1, new CharTransitionLabel('c'));
+        automatonA.addTransition(q1, q2, new CharTransitionLabel('a'));
+        automatonA.addLoop(q2, new CharTransitionLabel('a'));
+        automatonA.addTransition(q2, q3, new CharTransitionLabel('b'));
+        automatonA.markAsInitial(q0);
+        automatonA.markAsFinal(q3);
+
+        AutomatonSpecification automatonB = AutomataOperations.reverseLanguageAutomaton(automatonA);
+
+        NondeterministicAutomatonByThompsonApproach originalAutomaton = new
+                NondeterministicAutomatonByThompsonApproach(automatonA);
+
+        NondeterministicAutomatonByThompsonApproach reversedAutomaton = new
+                NondeterministicAutomatonByThompsonApproach(automatonB);
+
+        List<String> wordsToAccept = new ArrayList<String>();
+        List<String> wordsToReject = new ArrayList<String>();
+
+        for (String word : words) {
+            String reversedWord = new StringBuffer(word).reverse().toString();
+            if (originalAutomaton.accepts(word))
+                wordsToAccept.add(reversedWord);
+            else
+                wordsToReject.add(reversedWord);
+        }
+
+        for (String word : wordsToAccept) {
+            assertTrue(reversedAutomaton.accepts(word));
+        }
+        for (String word : wordsToReject) {
+            assertFalse(reversedAutomaton.accepts(word));
+        }
     }
 }

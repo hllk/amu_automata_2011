@@ -30,4 +30,13 @@ public class NewLineOperator extends NullaryRegexpOperator {
             return new NewLineOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "NEW_LINE";
+    }
+
 }

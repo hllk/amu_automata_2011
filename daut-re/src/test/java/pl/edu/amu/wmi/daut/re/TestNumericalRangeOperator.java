@@ -68,6 +68,47 @@ public class TestNumericalRangeOperator extends TestCase {
     }
 
     /**
+     * Test automatu od 0 do 13.
+     */
+    public final void testcreateFixedAutomatonFrom0() {
+ 
+        NumericalRangeOperator spec = new NumericalRangeOperator(0, 13);
+        NondeterministicAutomatonByThompsonApproach automaton =
+                new NondeterministicAutomatonByThompsonApproach(spec.createFixedAutomaton());
+ 
+        assertTrue(automaton.accepts("0"));
+        assertTrue(automaton.accepts("1"));
+        assertTrue(automaton.accepts("13"));
+        assertTrue(automaton.accepts("12"));
+        assertTrue(automaton.accepts("10"));
+        assertTrue(automaton.accepts("5"));
+        assertTrue(automaton.accepts("7"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("14"));
+        assertFalse(automaton.accepts("100"));
+        assertFalse(automaton.accepts("113"));
+        assertFalse(automaton.accepts("  0  "));
+    }
+
+    /**
+     * Test zakresu od 10 do 11.
+     */
+    public final void testcreateFixedAutomatonFrom10To11() {
+ 
+        NumericalRangeOperator spec = new NumericalRangeOperator(10, 11);
+        NondeterministicAutomatonByThompsonApproach automaton =
+                new NondeterministicAutomatonByThompsonApproach(spec.createFixedAutomaton());
+ 
+        assertTrue(automaton.accepts("10"));
+        assertTrue(automaton.accepts("11"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("9"));
+        assertFalse(automaton.accepts("12"));
+        assertFalse(automaton.accepts("0"));
+        assertFalse(automaton.accepts("  10"));
+    }
+
+    /**
      * Test fabryki.
      */
     public final void testFactory() {
@@ -78,5 +119,14 @@ public class TestNumericalRangeOperator extends TestCase {
         params.add(1, "200");
         assertEquals(factory.createOperator(params).getClass(),
                 new NumericalRangeOperator(100, 200).getClass());
+    }
+
+    /**
+     * Test metody toString.
+     */
+    public final void testtoString() {
+        NumericalRangeOperator spec = new NumericalRangeOperator(0, 10);
+        String string = spec.toString();
+        assertEquals(string, "NUMERICAL_FROM_0_TO_10");
     }
 }

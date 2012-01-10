@@ -28,4 +28,13 @@ public class BellCharacterOperator extends NullaryRegexpOperator {
             return new BellCharacterOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "BELL";
+    }
+
 }

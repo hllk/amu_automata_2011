@@ -13,9 +13,6 @@ import pl.edu.amu.wmi.daut.base.State;
 class UnknownAsciiCharacterClassException extends RuntimeException {
 }
 
-class InvalidStringException extends RuntimeException {
-}
-
 /**
  * ASCII character classes.
  */
@@ -46,16 +43,10 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
 
 
     /**
-     * konstruktor ASCII character classes.
+     * Konstruktor ASCII character classes.
      */
-    public AsciiCharacterClassOperator(String a) {
-        if (!(a.substring(0, 2).equals("[:")))
-            throw new InvalidStringException();
-        a = a.substring(2);
-        if (!(a.endsWith(":]")))
-            throw new InvalidStringException();
-        a = a.substring(0, a.length() - 2);
-        transformToClassString(a);
+    public AsciiCharacterClassOperator(String classString) {
+        transformToClassString(classString);
     }
 
 
@@ -96,5 +87,13 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
         public int numberOfParams() {
             return 1;
         }
+    }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "ASCII";
     }
 }

@@ -42,4 +42,13 @@ public class AtLeastOneOperator extends UnaryRegexpOperator {
             return new AtLeastOneOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "AT_LEAST_ONE";
+    }
+
 }

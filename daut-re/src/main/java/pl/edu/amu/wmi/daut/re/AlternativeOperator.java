@@ -29,6 +29,15 @@ public class AlternativeOperator extends BinaryRegexpOperator {
         protected RegexpOperator doCreateOperator(List<String> params) {
             return new AlternativeOperator();
         }
+
+    }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "ALTERNATIVE";
     }
 
 }

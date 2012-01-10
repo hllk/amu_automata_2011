@@ -40,4 +40,13 @@ public class OptionalityOperator extends UnaryRegexpOperator {
             return new OptionalityOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "OPTIONALITY";
+    }
+
 }

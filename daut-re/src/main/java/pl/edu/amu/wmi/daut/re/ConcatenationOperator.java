@@ -35,4 +35,12 @@ public class ConcatenationOperator extends BinaryRegexpOperator {
             return new ConcatenationOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "CONCATENATION";
+    }
 }

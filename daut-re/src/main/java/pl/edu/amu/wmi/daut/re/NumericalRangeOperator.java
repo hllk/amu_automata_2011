@@ -67,4 +67,13 @@ public class NumericalRangeOperator extends NullaryRegexpOperator {
                     Integer.parseInt(params.get(1)));
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "NUMERICAL_FROM_" + from + "_TO_" + to;
+    }
+
 }

@@ -28,4 +28,13 @@ public class TabOperator extends NullaryRegexpOperator {
             return new TabOperator();
         }
     }
+
+    /**
+     * Metoda toString().
+     */
+    @Override
+    public String toString() {
+        return "TAB";
+    }
+
 }
