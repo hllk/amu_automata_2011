@@ -5,7 +5,6 @@ import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.CharTransitionLabel;
 import pl.edu.amu.wmi.daut.base.State;
-import pl.edu.amu.wmi.daut.re.RangeNumberOfOccurrencesOperator.Factory;
 import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
 
 
