@@ -1109,4 +1109,73 @@ public class TestAutomatonSpecification extends TestCase {
 
         assertTrue(spec.isNotEmpty());
     }
+
+    //Testy do nierozwiazanego jeszcze zadania (#223).
+    /**
+     * Test metody makeAutomatonFromScheme.
+     */
+    /*
+    public final void testmakeAutomatonFromSimpleScheme () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach(spec.makeAutomatonFromScheme("abncm"));
+        assertTrue(automaton.accepts("abbccccccc"));
+        assertTrue(automaton.accepts("abbbbbbb"));
+        assertTrue(automaton.accepts("ac"));
+        assertTrue(automaton.accepts("ab"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertTrue(automaton.accepts("abbbbcccccccccc"));
+        assertFalse(automaton.accepts("aaaabbbbc"));
+        assertFalse(automaton.accepts("abc"));
+        assertFalse(automaton.accepts("abbbccc"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("aaaabbbbcddd"));
+        assertFalse(automaton.accepts("aaccccbbbbb"));
+        assertFalse(automaton.accepts("abccd"));
+    }
+    */
+    /**
+     * Test metody makeAutomatonFromScheme ciekawszego schematu.
+     */
+    /*
+    public final void testmakeAutomatonFromScheme () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach
+                (spec.makeAutomatonFromScheme("anbcdmefgz"));
+
+        assertTrue(automaton.accepts("bcdefgg"));
+        assertTrue(automaton.accepts("abcdefg"));
+        assertTrue(automaton.accepts("aaaabcdddefgg"));
+        assertTrue(automaton.accepts("aabcefg"));
+        assertTrue(automaton.accepts("aaa"));
+        assertTrue(automaton.accepts("ab"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertTrue(automaton.accepts("abbbbc"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("bcdf"));
+        assertFalse(automaton.accepts("aabcddefggg"));
+        assertFalse(automaton.accepts("bcddefgg"));
+    }
+     */
+   /**
+     * Test metody makeAutomatonFromScheme ciekawszego schematu.
+     */
+    /*
+    public final void testmakeAutomatonFromScheme2 () {
+        AutomatonSpecification spec = new NaiveAutomatonSpecification();
+        NondeterministicAutomatonByThompsonApproach automaton =
+                NondeterministicAutomatonByThompsonApproach
+                (spec.makeAutomatonFromScheme("anbcdmeofgphirjsklt"));
+
+        assertTrue(automaton.accepts("abcddeeefgggghiiiiijjjjjjjkllllllllll"));
+        assertTrue(automaton.accepts("bcdddddddddeefggghiiiiijjjjklllllll"));
+        assertTrue(automaton.accepts("aaaaaaabcdeeefgghiiiijjjjjjjjjjjjjk"));
+        assertTrue(automaton.accepts("aaaabcdddeefhiiiiiiiiijkllllll"));
+        assertFalse(automaton.accepts(""));
+        assertFalse(automaton.accepts("abcdefghijkl"));
+        assertFalse(automaton.accepts("bcfhk"));
+        assertFalse(automaton.accepts("aabcccddeeefgghiiijjjjkll"));
+    }
+     */
 }
