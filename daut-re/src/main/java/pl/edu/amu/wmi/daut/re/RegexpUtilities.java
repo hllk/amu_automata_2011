@@ -7,69 +7,71 @@ import java.util.ArrayList;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 
 /**
- * Klasa posiadająca metodę, która z drzewa operatorów robi automat.
+ * Klasa z pomocniczymi funkcjami operującymi na wyrażeniach regularnych.
  */
 public class RegexpUtilities {
 
     protected RegexpUtilities() { throw new UnsupportedOperationException(); }
 
-    static AutomatonSpecification createAutopmatonFromOperatorTree(RegexpOperatorTree tree) {
+    /**
+     *  Metoda, która z drzewa operatorów robi automat.
+     */
+    public static AutomatonSpecification createAutomatonFromOperatorTree(RegexpOperatorTree tree) {
 
-            //przejdź przez drzewo stanów metodą post-order, przy pomocy dwóch stosów.
-            Stack<RegexpOperatorTree> child = new Stack<RegexpOperatorTree>();
-            Stack<RegexpOperatorTree> parent = new Stack<RegexpOperatorTree>();
-            child.push(tree);
-            while (!child.empty()) {
+        //przejdź przez drzewo stanów metodą post-order, przy pomocy dwóch stosów.
+        Stack<RegexpOperatorTree> child = new Stack<RegexpOperatorTree>();
+        Stack<RegexpOperatorTree> parent = new Stack<RegexpOperatorTree>();
+        child.push(tree);
+        while (!child.empty()) {
 
-                RegexpOperatorTree current = child.peek();
-                parent.push(current);
-                child.pop();
+            RegexpOperatorTree current = child.peek();
+            parent.push(current);
+            child.pop();
 
-                for (RegexpOperatorTree subTree : current.getSubtrees())
-                    child.push(subTree);
+            for (RegexpOperatorTree subTree : current.getSubtrees())
+                child.push(subTree);
+        }
+
+        //na stosie "parent" mamy teraz wierzchołki w porządku post-order!
+        //w porządku post-order chodzi o to, że zawsze zaczynamy od nieodwiedzonych liści
+        //i idziemy powoli w kierunku korzenia drzewa.
+
+        //utwórz mapę poddrzew na automaty przez nich utworzone.
+        Map<RegexpOperatorTree, AutomatonSpecification> map = new HashMap<RegexpOperatorTree,
+                                                                   AutomatonSpecification>();
+
+        while (!parent.empty()) {
+
+            RegexpOperatorTree current = parent.peek();
+
+            //utwórz listę automatów utworzonych przez synów wierzchołka.
+            List<AutomatonSpecification> arguments = new ArrayList<AutomatonSpecification>();
+            for (RegexpOperatorTree subTree : current.getSubtrees()) {
+
+                //nie będzie tutaj odwołania do nieistniejących kluczy ze
+                //wzgl. na charakter porządku post-order. jeśli wystąpi tutaj
+                //exception, to znaczy, że źle zaimplementowaliśmy coś wcześniej.
+                AutomatonSpecification subTreeAutomaton = map.get(subTree);
+                arguments.add(subTreeAutomaton);
             }
 
-            //na stosie "parent" mamy teraz wierzchołki w porządku post-order!
-            //w porządku post-order chodzi o to, że zawsze zaczynamy od nieodwiedzonych liści
-            //i idziemy powoli w kierunku korzenia drzewa.
+            //utwórz automat, którego argumentami są automaty wszystkich synów.
+            AutomatonSpecification currentAutomaton = current.getRoot().createAutomaton(
+                                                                             arguments);
+            //zapamiętaj automat dla danego wierzchołka. ponieważ liście się
+            //wykonają "najpierw", to nadchodzący po tym rodzice tych liści
+            //będą mieli pełną informację o automatach utworzonych przez
+            //swoich synów...
+            map.put(current, currentAutomaton);
 
-            //utwórz mapę poddrzew na automaty przez nich utworzone.
-            Map<RegexpOperatorTree, AutomatonSpecification> map = new HashMap<RegexpOperatorTree,
-                                                                       AutomatonSpecification>();
+            parent.pop();
 
-            while (!parent.empty()) {
+            //usunęliśmy właśnie wierzchołek-korzeń - zostaliśmy z pustym stosem,
+            //możemy zwrócić automat.
+            if (parent.empty())
+                return currentAutomaton;
+        }
 
-                RegexpOperatorTree current = parent.peek();
-
-                //utwórz listę automatów utworzonych przez synów wierzchołka.
-                List<AutomatonSpecification> arguments = new ArrayList<AutomatonSpecification>();
-                for (RegexpOperatorTree subTree : current.getSubtrees()) {
-
-                    //nie będzie tutaj odwołania do nieistniejących kluczy ze
-                    //wzgl. na charakter porządku post-order. jeśli wystąpi tutaj
-                    //exception, to znaczy, że źle zaimplementowaliśmy coś wcześniej.
-                    AutomatonSpecification subTreeAutomaton = map.get(subTree);
-                    arguments.add(subTreeAutomaton);
-                }
-
-                //utwórz automat, którego argumentami są automaty wszystkich synów.
-                AutomatonSpecification currentAutomaton = current.getRoot().createAutomaton(
-                                                                                 arguments);
-                //zapamiętaj automat dla danego wierzchołka. ponieważ liście się
-                //wykonają "najpierw", to nadchodzący po tym rodzice tych liści
-                //będą mieli pełną informację o automatach utworzonych przez
-                //swoich synów...
-                map.put(current, currentAutomaton);
-
-                parent.pop();
-
-                //usunęliśmy właśnie wierzchołek-korzeń - zostaliśmy z pustym stosem,
-                //możemy zwrócić automat.
-                if (parent.empty())
-                    return currentAutomaton;
-            }
-
-            //ten kod nie powinien się nigdy wykonać.
-            return null;
+        throw new IllegalStateException();
     }
 }

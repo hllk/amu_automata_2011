@@ -11,46 +11,59 @@ import java.util.List;
  */
 public class OctSingleCharacterOperator extends NullaryRegexpOperator {
 
-    private int value;
+    private int octValue;
     static final int BASE = 8;
 
     /**
      * Konstruktor.
      */
     public OctSingleCharacterOperator(int a) throws Exception {
-       this.setValue(a);
+       this.setOctValue(a);
     }
 
     /**
      * Metoda, ustawia nową wartość ( sprawdza czy jest w kodzie ósemkowym).
      */
-    public void setValue(int i) throws Exception {
+    private void setOctValue(int i) throws Exception {
         if (isOctal(i))
-            this.value = i;
+            this.octValue = i;
         else throw new Exception();
     }
 
     /**
      * Metoda zwraca aktualną wartość (w kodzie ósemkowym).
      */
-    public int getValue() {
-        return value;
+    public int getOctValue() {
+        return octValue;
+    }
+
+    /**
+     * Metoda zwraca znak odpowiadający aktualnej wartości octValue.
+     */
+    public char getCharacter() {
+        return (char) Integer.parseInt(Integer.toString(octValue), BASE);
     }
 
     /**
      * Metoda sprawdza, czy wartość jest w kodzie ósemkowym.
      */
-    public boolean isOctal(int number) {
-        return Integer.toString(number).equals(Integer.toOctalString(number));
+    private boolean isOctal(int number) {
+
+        try {
+                Integer.parseInt(Integer.toString(number), BASE);
+            } catch (Exception ex) {
+                return false;
+            }
+            return true;
     }
 
     @Override
     public AutomatonSpecification createFixedAutomaton() {
 
-        int octValue = Integer.parseInt(Integer.toString(value), BASE);
+        int intValue = Integer.parseInt(Integer.toString(octValue), BASE);
 
         return new NaiveAutomatonSpecification()
-                .makeOneTransitionAutomaton((char) octValue);
+                .makeOneTransitionAutomaton((char) intValue);
     }
 
     /**

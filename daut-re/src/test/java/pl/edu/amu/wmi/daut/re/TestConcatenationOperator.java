@@ -6,6 +6,8 @@ import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
 import pl.edu.amu.wmi.daut.base.State;
 import pl.edu.amu.wmi.daut.base.CharTransitionLabel;
 import junit.framework.TestCase;
+import java.util.ArrayList;
+import pl.edu.amu.wmi.daut.re.ConcatenationOperator.Factory;
 
     /**
      * Test klasy ConcatenationOperator.
@@ -60,5 +62,16 @@ public class TestConcatenationOperator extends TestCase {
         assertFalse(result.accepts("cokolwiek"));
         assertFalse(result.accepts("bbaccab"));
         assertFalse(result.accepts("ccabba"));
+    }
+
+     /**
+     * Test fabryki operatora.
+     */
+    public final void testFactory() {
+        Factory factory = new Factory();
+        ArrayList<String> params = new ArrayList<String>();
+
+        assertEquals(factory.createOperator(params).getClass(),
+            new ConcatenationOperator().getClass());
     }
 }

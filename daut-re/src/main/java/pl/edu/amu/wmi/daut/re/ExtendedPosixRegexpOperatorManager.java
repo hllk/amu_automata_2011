@@ -5,8 +5,9 @@ import java.util.Arrays;
 
 
 class ExtendedPosixRegexpOperatorManager extends RegexpOperatorManager {
-    private static final int PRIORITY_4 = 4;
-    private static final int PRIORITY_3 = 3;
+    public static final int PRIORITY_4 = 4;
+    public static final int PRIORITY_3 = 3;
+    public static final int PRIORITY_1 = 1;
 
 
     public ExtendedPosixRegexpOperatorManager() {
@@ -26,6 +27,8 @@ class ExtendedPosixRegexpOperatorManager extends RegexpOperatorManager {
                     Arrays.<String>asList("", "{", "}"), PRIORITY_3);
         addOperator("{m,n}", new RangeNumberOfOccurrencesOperator.Factory(),
                     Arrays.<String>asList("", "{", ",", "}"), PRIORITY_3);
+        addOperator("|", new AlternativeOperator.Factory(),
+                    Arrays.<String>asList("", "|", ""), PRIORITY_1);
     }
 }
 

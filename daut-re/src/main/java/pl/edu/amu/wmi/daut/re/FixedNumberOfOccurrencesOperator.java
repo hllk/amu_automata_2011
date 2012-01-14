@@ -26,28 +26,36 @@ public class FixedNumberOfOccurrencesOperator extends UnaryRegexpOperator {
             AutomatonSpecification subautomaton) {
 
         AutomatonSpecification automatbudowany = subautomaton.clone();
-        AutomatonSpecification automatpom1 = subautomaton.clone();
-        automatbudowany.addTransition(automatbudowany.getInitialState(),
-                            automatpom1.getInitialState(),
-                            new EpsilonTransitionLabel());
 
-        for (State state : automatbudowany.allStates()) {
-            if (automatbudowany.isFinal(state)) {
-                automatbudowany.unmarkAsFinalState(state);
-            }
-        }
+        if (this.n == 0)
+            automatbudowany.markAsFinal(automatbudowany.getInitialState());
 
-        for (int i = 1; i < this.n; i++) {
+        if (n > 1) {
+            State newState = automatbudowany.addState();
 
-            for (State state : automatpom1.allStates()) {
-                if (automatpom1.isFinal(state)) {
-                    AutomatonSpecification automatdod = subautomaton.clone();
-                    automatpom1.addTransition(state,
-                    automatdod.getInitialState(),
-                    new EpsilonTransitionLabel());
-                    automatpom1.unmarkAsFinalState(state);
+            for (State state : automatbudowany.allStates()) {
+                if (automatbudowany.isFinal(state)) {
+                    automatbudowany.addTransition(state,
+                                newState,
+                                new EpsilonTransitionLabel());
+                    automatbudowany.unmarkAsFinalState(state);
                 }
             }
+            automatbudowany.insert(newState, subautomaton);
+        }
+
+        for (int i = 1; i < this.n - 1; i++) {
+            State newState1 = automatbudowany.addState();
+
+            for (State state : automatbudowany.allStates()) {
+                if (automatbudowany.isFinal(state)) {
+                    automatbudowany.addTransition(state,
+                                newState1,
+                                new EpsilonTransitionLabel());
+                    automatbudowany.unmarkAsFinalState(state);
+                }
+            }
+            automatbudowany.insert(newState1, subautomaton);
         }
         return automatbudowany;
     }

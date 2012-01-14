@@ -20,33 +20,35 @@ public class AnyOrderOperator extends BinaryRegexpOperator {
         AutomatonSpecification automatonLR = new NaiveAutomatonSpecification();
         AutomatonSpecification automatonRL = new NaiveAutomatonSpecification();
 
-        State initialStateL = automatonLR.addState();
-        State finalStateL = automatonLR.addState();
-        automatonLR.markAsInitial(initialStateL);
-        automatonLR.insert(initialStateL, leftSubautomaton);
-        for (State q : automatonLR.allStates()) {
-            if (automatonLR.isFinal(q)) {
-               automatonLR.addTransition(q, finalStateL, new EpsilonTransitionLabel());
-               automatonLR.unmarkAsFinalState(q);
-            }
-        }
-        automatonLR.insert(finalStateL, rightSubautomaton);
-
-        State initialStateR = automatonRL.addState();
-        State finalStateR = automatonRL.addState();
-        automatonRL.markAsInitial(initialStateR);
-        automatonRL.insert(initialStateR, rightSubautomaton);
-        for (State q : automatonRL.allStates()) {
-            if (automatonRL.isFinal(q)) {
-               automatonRL.addTransition(q, finalStateR, new EpsilonTransitionLabel());
-               automatonRL.unmarkAsFinalState(q);
-            }
-        }
-        automatonRL.insert(finalStateR, leftSubautomaton);
+        concatenate(leftSubautomaton, rightSubautomaton, automatonLR);
+        concatenate(rightSubautomaton, leftSubautomaton, automatonRL);
 
         return AutomataOperations.sum(automatonLR, automatonRL);
     }
 
+    /**
+     * @param first
+     * Automat poczatkowy, ktory rozpoczyna wyjsciowy automat.
+     * @param second
+     * Automat ktory jest 'doklejany' do stanow koncowych poczatkowego automatu.
+     * @param automaton
+     * Pusty automat ktory ma byc konkatenacja pierwszych 2 automatow.
+     */
+    private void concatenate(AutomatonSpecification first,
+            AutomatonSpecification second, AutomatonSpecification automaton) {
+
+        State initialStateL = automaton.addState();
+        State finalStateL = automaton.addState();
+        automaton.markAsInitial(initialStateL);
+        automaton.insert(initialStateL, first);
+        for (State q : automaton.allStates()) {
+            if (automaton.isFinal(q)) {
+               automaton.addTransition(q, finalStateL, new EpsilonTransitionLabel());
+               automaton.unmarkAsFinalState(q);
+            }
+        }
+        automaton.insert(finalStateL, second);
+    }
      /**
       * Fabryka operatora.
       */

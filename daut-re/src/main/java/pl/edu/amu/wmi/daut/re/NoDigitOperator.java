@@ -23,6 +23,7 @@ public class NoDigitOperator extends NullaryRegexpOperator {
         noDigitAutomaton.markAsFinal(state2);
         return noDigitAutomaton;
     }
+
     /**
      * Fabryka operatora.
      */
