@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public class RegexpOperatorTree {
 
-    private static class ArityException extends Exception {
+    private static class ArityException extends RuntimeException {
 
         public ArityException() {
         }
@@ -22,8 +22,7 @@ public class RegexpOperatorTree {
      *
      * Jeśli liczba poddrzew nie zgadza się z arnością operatora, powinien być wyrzucany wyjątek.
      */
-    RegexpOperatorTree(RegexpOperator operator, List<RegexpOperatorTree> subtrees)
-            throws ArityException {
+    RegexpOperatorTree(RegexpOperator operator, List<RegexpOperatorTree> subtrees) {
 
         if (operator.arity() == subtrees.size()) {
             this.root = operator;

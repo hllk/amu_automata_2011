@@ -17,17 +17,17 @@ public class OctSingleCharacterOperator extends NullaryRegexpOperator {
     /**
      * Konstruktor.
      */
-    public OctSingleCharacterOperator(int a) throws Exception {
+    public OctSingleCharacterOperator(int a) {
        this.setOctValue(a);
     }
 
     /**
      * Metoda, ustawia nową wartość ( sprawdza czy jest w kodzie ósemkowym).
      */
-    private void setOctValue(int i) throws Exception {
+    private void setOctValue(int i) {
         if (isOctal(i))
             this.octValue = i;
-        else throw new Exception();
+        else throw new RuntimeException();
     }
 
     /**

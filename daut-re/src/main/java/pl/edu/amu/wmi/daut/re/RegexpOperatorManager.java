@@ -57,7 +57,6 @@ public class RegexpOperatorManager {
             this.separators.addAll(separators);
         }
     }
-
     private List<OperatorData> definedOperators = new ArrayList<OperatorData>();
 
     /**
@@ -81,7 +80,6 @@ public class RegexpOperatorManager {
         definedOperators.add(currentOperator);
     }
 
-
     /**
      * Zwraca listę separatorów dla operatora o identyfikatorze id.
      */
@@ -89,12 +87,12 @@ public class RegexpOperatorManager {
 
         OperatorData currentOperator = findId(id);
 
-        if (currentOperator != null)
+        if (currentOperator != null) {
             return currentOperator.separators;
-        else
+        } else {
             return null;
+        }
     }
-
 
     /**
      * Zwraca fabrykę operatora o identyfikatorze id.
@@ -103,12 +101,12 @@ public class RegexpOperatorManager {
 
         OperatorData currentOperator = findId(id);
 
-        if (currentOperator != null)
+        if (currentOperator != null) {
             return currentOperator.operatorFactory;
-        else
+        } else {
             return null;
+        }
     }
-
 
     /**
      * Zwraca priorytet operatora id.
@@ -117,10 +115,11 @@ public class RegexpOperatorManager {
 
         OperatorData currentOperator = findId(id);
 
-        if (currentOperator != null)
+        if (currentOperator != null) {
             return currentOperator.priority;
-        else
+        } else {
             return -1;
+        }
     }
 
     /**
@@ -131,8 +130,8 @@ public class RegexpOperatorManager {
 
         for (OperatorData operator : definedOperators) {
             if (operator.id.equals(id)) {
-                 returned = operator;
-                 break;
+                returned = operator;
+                break;
             }
         }
         return returned;
@@ -163,6 +162,20 @@ public class RegexpOperatorManager {
         }
 
         for (OperatorData operator : potentialOperators) {
+            returnedId.add(operator.id);
+        }
+
+        return returnedId;
+    }
+
+    /**
+     * Zwraca listę identyfikatorów wszystkich operatorów.
+     */
+    List<String> getAllOperatorIds() {
+
+        List<String> returnedId = new ArrayList<String>();
+
+        for (OperatorData operator : definedOperators) {
             returnedId.add(operator.id);
         }
 

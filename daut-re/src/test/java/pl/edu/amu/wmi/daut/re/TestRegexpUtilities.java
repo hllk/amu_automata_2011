@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
 import junit.framework.TestCase;
+
 /**
  * Test klasy RegexpUtilities.
  */
 public class TestRegexpUtilities extends TestCase {
+
     /**
      * Test metody createAutopmatonFromOperatorTree dla wyrażenia regularnego a.
      */
     public final void testTrivialRegexp() throws Exception {
+
         //Tworzymy drzewo dla wyrażenia regularnego a.
         RegexpOperator root = new SingleCharacterOperator('a');
         List<RegexpOperatorTree> subtrees = new ArrayList<RegexpOperatorTree>();
@@ -32,6 +35,7 @@ public class TestRegexpUtilities extends TestCase {
         assertFalse(result.accepts("testujtest"));
 
     }
+
     /**
      * Test metody createAutopmatonFromOperatorTree
      *  dla wyrażenia regularnego a|b.
@@ -72,6 +76,7 @@ public class TestRegexpUtilities extends TestCase {
      * Test metody createAutopmatonFromOperatorTree dla wyrażenia regularnego ab.
      */
     public final void testRegexpWithConcatenationOperator() throws Exception {
+
         //Tworzymy drzewo dla wyrażenia regularnego ab
         RegexpOperator root1 = new SingleCharacterOperator('a');
         List<RegexpOperatorTree> subtrees1 = new ArrayList<RegexpOperatorTree>();
@@ -103,11 +108,13 @@ public class TestRegexpUtilities extends TestCase {
 
 
     }
+
     /**
      * Test metody createAutopmatonFromOperatorTree
      * dla wyrażenia regularnego a?|b|c*.
      */
     public final void testComplexRegexp() throws Exception {
+
         //Tworzymy drzewo dla wyrażenia regularnego a?|b|c*
         RegexpOperator root1 = new SingleCharacterOperator('a');
         List<RegexpOperatorTree> subtrees1 = new ArrayList<RegexpOperatorTree>();
@@ -160,11 +167,13 @@ public class TestRegexpUtilities extends TestCase {
         assertFalse(result.accepts("aaaaa"));
         assertFalse(result.accepts("testujtest"));
     }
+
     /**
      * Test metody createAutopmatonFromOperatorTree
      * dla wyrażenia regularnego (a|b)*|c+|de*.
      */
     public final void testMoreComplexRegexp() throws Exception {
+
         //Tworzymy drzewo dla wyrażenia regularnego (a|b)*|c+|de*
         RegexpOperator root1 = new SingleCharacterOperator('a');
         List<RegexpOperatorTree> subtrees1 = new ArrayList<RegexpOperatorTree>();

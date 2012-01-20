@@ -2,24 +2,21 @@ package pl.edu.amu.wmi.daut.re;
 
 import java.util.List;
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
-import pl.edu.amu.wmi.daut.base.CharClassTransitionLabel;
+import pl.edu.amu.wmi.daut.base.ComplementCharClassTransitionLabel;
 import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.State;
 
-
-class UnknownAsciiCharacterClassException extends RuntimeException {
-}
-
 /**
- * ASCII character classes.
+ *
+ * @author jakub
  */
-public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
+public class NegatedAsciiCharacterClass extends NullaryRegexpOperator {
     private String str;
 
     /**
      * Konstruktor ASCII character classes.
      */
-    public AsciiCharacterClassOperator(String classString) {
+    public NegatedAsciiCharacterClass(String classString) {
         transformToClassString(classString);
     }
 
@@ -35,14 +32,13 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
      */
     @Override
     public AutomatonSpecification createFixedAutomaton() {
-
         AutomatonSpecification automaton = new NaiveAutomatonSpecification();
         State q0 = automaton.addState();
         State q1 = automaton.addState();
         automaton.markAsInitial(q0);
         automaton.markAsFinal(q1);
 
-        automaton.addTransition(q0, q1, new CharClassTransitionLabel(str));
+        automaton.addTransition(q0, q1, new ComplementCharClassTransitionLabel(str));
 
         return automaton;
     }
@@ -54,7 +50,7 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
 
         @Override
         protected RegexpOperator doCreateOperator(List<String> params) {
-            return new AsciiCharacterClassOperator(params.get(0));
+            return new NegatedAsciiCharacterClass(params.get(0));
         }
 
         @Override
@@ -68,6 +64,6 @@ public class AsciiCharacterClassOperator extends NullaryRegexpOperator {
      */
     @Override
     public String toString() {
-        return "ASCII";
+        return "^ASCII";
     }
 }

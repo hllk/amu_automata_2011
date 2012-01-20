@@ -1,6 +1,7 @@
 package pl.edu.amu.wmi.daut.re;
 
 import pl.edu.amu.wmi.daut.base.AutomatonSpecification;
+import pl.edu.amu.wmi.daut.base.NaiveAutomatonSpecification;
 import pl.edu.amu.wmi.daut.base.EpsilonTransitionLabel;
 import pl.edu.amu.wmi.daut.base.State;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
 */
 public class FixedNumberOfOccurrencesOperator extends UnaryRegexpOperator {
 
-    private int n;
+    private int numberOfOccurrences;
 
     /**
      * Konstruktor klasy.
      */
     public FixedNumberOfOccurrencesOperator(int a) {
-        this.n = a;
+        numberOfOccurrences = a;
     }
 
     /**
@@ -25,37 +26,29 @@ public class FixedNumberOfOccurrencesOperator extends UnaryRegexpOperator {
     public AutomatonSpecification createAutomatonFromOneAutomaton(
             AutomatonSpecification subautomaton) {
 
-        AutomatonSpecification automatbudowany = subautomaton.clone();
+        AutomatonSpecification automatbudowany = new NaiveAutomatonSpecification();
 
-        if (this.n == 0)
-            automatbudowany.markAsFinal(automatbudowany.getInitialState());
-
-        if (n > 1) {
-            State newState = automatbudowany.addState();
-
-            for (State state : automatbudowany.allStates()) {
-                if (automatbudowany.isFinal(state)) {
-                    automatbudowany.addTransition(state,
-                                newState,
-                                new EpsilonTransitionLabel());
-                    automatbudowany.unmarkAsFinalState(state);
-                }
-            }
-            automatbudowany.insert(newState, subautomaton);
+        if (numberOfOccurrences == 0) {
+            State state = automatbudowany.addState();
+            automatbudowany.markAsInitial(state);
+            automatbudowany.markAsFinal(state);
         }
 
-        for (int i = 1; i < this.n - 1; i++) {
-            State newState1 = automatbudowany.addState();
+        if (numberOfOccurrences > 0) {
+            automatbudowany = subautomaton.clone();
+            for (int i = 1; i < numberOfOccurrences; i++) {
+                State newState = automatbudowany.addState();
 
-            for (State state : automatbudowany.allStates()) {
-                if (automatbudowany.isFinal(state)) {
-                    automatbudowany.addTransition(state,
-                                newState1,
-                                new EpsilonTransitionLabel());
-                    automatbudowany.unmarkAsFinalState(state);
+                for (State state : automatbudowany.allStates()) {
+                    if (automatbudowany.isFinal(state)) {
+                        automatbudowany.addTransition(state,
+                                    newState,
+                                    new EpsilonTransitionLabel());
+                        automatbudowany.unmarkAsFinalState(state);
+                    }
                 }
+                automatbudowany.insert(newState, subautomaton);
             }
-            automatbudowany.insert(newState1, subautomaton);
         }
         return automatbudowany;
     }
@@ -80,7 +73,7 @@ public class FixedNumberOfOccurrencesOperator extends UnaryRegexpOperator {
      */
     @Override
     public String toString() {
-        return "FIXED_" + n + "_TIMES";
+        return "FIXED_" + numberOfOccurrences + "_TIMES";
     }
 
 }

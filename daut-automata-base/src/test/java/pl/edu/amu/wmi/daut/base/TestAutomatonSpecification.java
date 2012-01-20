@@ -2,7 +2,7 @@ package pl.edu.amu.wmi.daut.base;
 
 import java.util.List;
 import java.util.Arrays;
-
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.TestCase;
@@ -1110,6 +1110,31 @@ public class TestAutomatonSpecification extends TestCase {
         assertTrue(spec.isNotEmpty());
     }
 
+    /**
+     * Test metody getEpsilonClosureWithContext.
+     */
+    public final void testGetEpsilonClosureWithContext() {
+        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        State q3 = spec.addState();
+        State q4 = spec.addState();
+
+        spec.addTransition(q0, q1, new EpsilonTransitionLabel());
+        spec.addTransition(q1, q2, new EpsilonTransitionLabel());
+        spec.addTransition(q0, q3, new EndOfTextOrLineTransitionLabel());
+        spec.addTransition(q2, q4, new EndOfTextOrLineTransitionLabel());
+
+        List<State> expectedList = new ArrayList<State>();
+        expectedList.addAll(spec.allStates());
+        assertEquals(expectedList.size(),
+                spec.getEpsilonClosureWithContext(q0, "s", 1).size());
+        assertFalse(expectedList.size()
+             == spec.getEpsilonClosureWithContext(q1, "s", 1).size());
+    }
+
     //Testy do nierozwiazanego jeszcze zadania (#223).
     /**
      * Test metody makeAutomatonFromScheme.
@@ -1178,4 +1203,75 @@ public class TestAutomatonSpecification extends TestCase {
         assertFalse(automaton.accepts("aabcccddeeefgghiiijjjjkll"));
     }
      */
+
+    /**
+     * Test metody maxWordLength().
+     */
+    public final void testMaxWordLength() {
+        NaiveAutomatonSpecification spec = new NaiveAutomatonSpecification();
+        //test 1 - brak stanow i przejsc
+        assertEquals(spec.maxWordLength(), -1);
+        //test 1.1 - brak przejsc 3 stany
+        State q0 = spec.addState();
+        State q1 = spec.addState();
+        State q2 = spec.addState();
+        spec.markAsInitial(q0);
+        spec.markAsFinal(q2);
+        assertEquals(spec.maxWordLength(), -1);
+        //test 2 - 3 stany 1 przejscie brak polaczenia z koncowym
+        spec.addTransition(q0, q1, new CharTransitionLabel('a'));
+        assertEquals(spec.maxWordLength(), -1);
+        //test2.1 - normalny na 3 stanach z pojedynczymi przejsciami
+        spec.addTransition(q1, q2, new CharTransitionLabel('b'));
+        assertEquals(spec.maxWordLength(), 2);
+        //test 3 - pętla w ramach jednego stanu.
+        NaiveAutomatonSpecification specLoop = new NaiveAutomatonSpecification();
+        State loop = specLoop.addState();
+        specLoop.markAsInitial(loop);
+        specLoop.markAsFinal(loop);
+        specLoop.addLoop(loop, new CharTransitionLabel('c'));
+        assertEquals(specLoop.maxWordLength(), -2);
+        //test 4 same epsilon przejścia
+        NaiveAutomatonSpecification spec2 = new NaiveAutomatonSpecification();
+        State q7 = spec2.addState();
+        State q8 = spec2.addState();
+        State q9 = spec2.addState();
+        spec2.markAsInitial(q7);
+        spec2.markAsFinal(q9);
+        spec2.addTransition(q7, q8, new EpsilonTransitionLabel());
+        spec2.addTransition(q8, q9, new EpsilonTransitionLabel());
+        assertEquals(spec2.maxWordLength(), 0);
+        //test 4.1 - 2 epsilon i 2 normalne
+        State q10 = spec2.addState();
+        State q11 = spec2.addState();
+        spec2.markAsFinal(q11);
+        spec2.addTransition(q9, q10, new CharTransitionLabel('a'));
+        spec2.addTransition(q10, q11, new CharTransitionLabel('b'));
+        assertEquals(spec2.maxWordLength(), 2);
+        //test 4.2 - droga z epsilon przejsciami wiedzie przez wiecej stanów
+        //wiec liczac epsilony jest dłuzsza.
+        State q12 = spec2.addState();
+        State q13 = spec2.addState();
+        spec2.addTransition(q9, q12, new EpsilonTransitionLabel());
+        spec2.addTransition(q12, q13, new EpsilonTransitionLabel());
+        spec2.addTransition(q13, q11, new EpsilonTransitionLabel());
+        assertEquals(spec2.maxWordLength(), 2);
+        //test 6 jedna z galezi automatu wysuwa się dalej niz stan koncowy.
+        NaiveAutomatonSpecification spec4 = new NaiveAutomatonSpecification();
+        State q17 = spec4.addState();
+        State q18 = spec4.addState();
+        State q19 = spec4.addState();
+        State q20 = spec4.addState();
+        State q21 = spec4.addState();
+        State q22 = spec4.addState();
+        spec4.markAsInitial(q17);
+        spec4.markAsFinal(q18);
+        spec4.addTransition(q17, q18, new CharTransitionLabel('a'));
+        spec4.addTransition(q17, q19, new CharTransitionLabel('b'));
+        spec4.addTransition(q19, q20, new CharTransitionLabel('a'));
+        spec4.addTransition(q20, q21, new CharTransitionLabel('b'));
+        spec4.addTransition(q21, q22, new CharTransitionLabel('a'));
+        assertEquals(spec4.maxWordLength(), 1);
+    }
+
 }
