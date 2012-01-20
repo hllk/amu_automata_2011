@@ -17,7 +17,7 @@ import java.util.Stack;
  * odpowiadających na pytanie, czy automat akceptuje napis, czy nie),
  * tylko "zawartość" automatu.
  */
-abstract class AutomatonSpecification implements Cloneable {
+//abstract class AutomatonSpecification implements Cloneable {
 
     public abstract class AutomatonSpecification implements Cloneable {
 
@@ -496,7 +496,8 @@ abstract class AutomatonSpecification implements Cloneable {
                     if (allStates().isEmpty()) {
                         return false;
                     }
-
+                }
+            }
                     for (State state : allStates()) {
 
                         if (allOutgoingTransitions(state).isEmpty()) {
@@ -585,6 +586,7 @@ abstract class AutomatonSpecification implements Cloneable {
                     }
                 }
             }
+        }
 
             /**
              * Sprawdza, czy od stanu state można dojść do stanu końcowego.
@@ -860,13 +862,13 @@ abstract class AutomatonSpecification implements Cloneable {
             return mini;
         }
 
-        public void makeOneLoopAutomaton(char c) {
+        //public void makeOneLoopAutomaton(char c) {
 
             /**
              * Tworzy automat z jednym przejściem.
              */
-        
-
+        //}
+    
         public AutomatonSpecification makeOneLoopAutomaton(char c) {
 
             State q0 = addState();
@@ -963,7 +965,7 @@ abstract class AutomatonSpecification implements Cloneable {
                 }
             }
 
-        
+        }
 
         private boolean findFinals(State state, List<State> history) {
             boolean result = false;
