@@ -32,7 +32,7 @@ public class TestRangeNumberOfOccurrencesOperator extends TestCase {
         RangeNumberOfOccurrencesOperator testaut1 = new RangeNumberOfOccurrencesOperator(2,5);
         NondeterministicAutomatonByThompsonApproach result1 =
         new NondeterministicAutomatonByThompsonApproach(
-                testaut1.createAutomatonFromTwoAutomatOneAutomaton(aut));
+                testaut1.createAutomatonFromOneAutomaton(aut));
         
         assertTrue(result1.accepts("aa"));
         assertTrue(result1.accepts("abbbabbbabbb"));
@@ -49,7 +49,7 @@ public class TestRangeNumberOfOccurrencesOperator extends TestCase {
         RangeNumberOfOccurrencesOperator testaut2 = new RangeNumberOfOccurrencesOperator(0,3);
         NondeterministicAutomatonByThompsonApproach result2 =
         new NondeterministicAutomatonByThompsonApproach(
-                testaut2.createAutomatonFromTwoAutomatOneAutomaton(aut));
+                testaut2.createAutomatonFromOneAutomaton(aut));
         
         assertTrue(result2.accepts(""));
         assertTrue(result2.accepts("aaa"));
@@ -64,7 +64,7 @@ public class TestRangeNumberOfOccurrencesOperator extends TestCase {
         RangeNumberOfOccurrencesOperator testaut3 = new RangeNumberOfOccurrencesOperator(4,4);
         NondeterministicAutomatonByThompsonApproach result3 =
         new NondeterministicAutomatonByThompsonApproach(
-                testaut3.createAutomatonFromTwoAutomatOneAutomaton(aut));
+                testaut3.createAutomatonFromOneAutomaton(aut));
         
         assertTrue(result3.accepts("aaaa"));
         assertTrue(result3.accepts("bbbbbabababba"));
