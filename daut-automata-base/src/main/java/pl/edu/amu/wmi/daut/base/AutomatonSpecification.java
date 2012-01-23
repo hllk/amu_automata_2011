@@ -230,7 +230,8 @@ public abstract class AutomatonSpecification implements Cloneable {
                         stateStack.push(state);
                         transitionStack.push(transition++);
                         branchStack.push(branches);
-                        State stateForWhile = this.allOutgoingTransitions(states.get(state)).get(transition).getTargetState();
+                        State stateForWhile = this.allOutgoingTransitions(states.get(state))
+                                .get(transition).getTargetState();
                         branchStack.push(this.allOutgoingTransitions(stateForWhile).size());
                         stateStack.push(states.indexOf(stateForWhile));
                         transitionStack.push(0);
@@ -359,9 +360,11 @@ public abstract class AutomatonSpecification implements Cloneable {
 
                     for (OutgoingTransition edgeIt : edges) {
                         if (labelList[states.indexOf(edgeIt.getTargetState())].length() == 0) {
-                            labelList[states.indexOf(edgeIt.getTargetState())].append(edgeIt.getTransitionLabel());
+                            labelList[states.indexOf(edgeIt.getTargetState())]
+                                    .append(edgeIt.getTransitionLabel());
                         } else {
-                            labelList[states.indexOf(edgeIt.getTargetState())].append(", " + edgeIt.getTransitionLabel());
+                            labelList[states.indexOf(edgeIt.getTargetState())]
+                                    .append(", " + edgeIt.getTransitionLabel());
                         }
                     }
 
