@@ -24,10 +24,13 @@ public class TestRangeNumberOfOccurrencesOperator extends TestCase {
 
         State q0 = aut.addState();
         State q1 = aut.addState();
+        State q2 = aut.addState();
         aut.addTransition(q0, q1, new CharTransitionLabel('a'));
-        aut.addTransition(q1, q0, new CharTransitionLabel('b'));
+        aut.addTransition(q1, q2, new CharTransitionLabel('a'));
         aut.addLoop(q0, new CharTransitionLabel('b'));
-        aut.addLoop(q1, new CharTransitionLabel('a'));
+        aut.addLoop(q1, new CharTransitionLabel('b'));
+        aut.addLoop(q2, new CharTransitionLabel('a'));
+        aut.addLoop(q2, new CharTransitionLabel('b'));
 
         aut.markAsInitial(q0);
         aut.markAsFinal(q1);
