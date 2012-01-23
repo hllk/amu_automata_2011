@@ -8,8 +8,7 @@ import pl.edu.amu.wmi.daut.base.State;
 import pl.edu.amu.wmi.daut.base.NondeterministicAutomatonByThompsonApproach;
 
 /**
- *
- * test klasy RangeNumberOfOccurrencesOperator
+ * test klasy RangeNumberOfOccurrencesOperator.
  */
 public class TestRangeNumberOfOccurrencesOperator extends TestCase {
 
